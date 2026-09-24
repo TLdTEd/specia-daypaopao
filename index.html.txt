@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños Greysi! 🎉</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Elemento de Audio Oculto (Pon tu canción en la misma carpeta o usa un link directo) -->
+    <audio id="birthday-song" loop>
+        <source src="cancion.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio elemental.
+    </audio>
+
+    <!-- VENTANA 1: El Saludo Corto -->
+    <section id="window-1" class="window active">
+        <div class="card">
+            <span class="icon">✨</span>
+            <h1>¡Feliz Cumpleaños, Greysi!</h1>
+            <p class="message">Hoy es un día súper especial y quería preparar algo único para ti. Un pequeño rincón digital para recordar lo bonito que es tenerte en nuestras vidas. ¿Lista para ver más?</p>
+            <button class="btn" onclick="goToWindow(2)">Ver mis fotos 💖</button>
+        </div>
+    </section>
+
+    <!-- VENTANA 2: Galería Estilo Muro -->
+    <section id="window-2" class="window hidden">
+        <div class="container">
+            <h2>Tus Recuerdos 📸</h2>
+            <p class="subtitle">Cada momento contigo es un tesoro.</p>
+            
+            <!-- El Muro de Fotos -->
+            <div class="photo-wall">
+                <!-- Reemplaza los src con tus links RAW de GitHub cuando los tengas -->
+                <div class="photo-item"><img src="https://placeholder.com" alt="Greysi 1"></div>
+                <div class="photo-item"><img src="https://placeholder.com" alt="Greysi 2"></div>
+                <div class="photo-item"><img src="https://placeholder.com" alt="Greysi 3"></div>
+                <div class="photo-item"><img src="https://placeholder.com" alt="Greysi 4"></div>
+                <div class="photo-item"><img src="https://placeholder.com" alt="Greysi 5"></div>
+                <div class="photo-item"><img src="https://placeholder.com" alt="Greysi 6"></div>
+            </div>
+
+            <button class="btn" onclick="goToWindow(3)">Siguiente ➡️</button>
+        </div>
+    </section>
+
+    <!-- VENTANA 3: Despedida y Buenos Deseos -->
+    <section id="window-3" class="window hidden">
+        <div class="card font-soft">
+            <span class="icon">🎂</span>
+            <h2>Mis mejores deseos para ti</h2>
+            <p class="message">Te deseo un año lleno de risas, metas cumplidas, salud y muchísima felicidad. Que nunca dejes de sonreír como lo haces en esas fotos. ¡Disfruta muchísimo tu día!</p>
+            <p class="signature">Con mucho cariño, [Tu Nombre] ✨</p>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
