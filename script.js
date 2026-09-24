@@ -1,6 +1,6 @@
 function generateFloatingPhotos() {
     const area = document.getElementById('floating-area');
-    area.innerHTML = "";
+    // area.innerHTML = ""; //
 
     // Mezclamos el orden para que queden distribuidos fotos y gifs al azar
     const fotosMezcladas = [...misFotos].sort(() => Math.random() - 0.5);
