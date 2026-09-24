@@ -1,15 +1,18 @@
-// ⚠️ Reemplaza TU_USUARIO y TU_REPOSITORIO con tus datos reales de GitHub
-const BASE_URL = "https://githubusercontent.com";
+// ⚠️ REEMPLAZA ESTOS DOS DATOS CON TU CONFIGURACIÓN REAL DE GITHUB
+const MIN_USER_GITHUB = "TU_USUARIO"; 
+const MI_REPO_GITHUB = "TU_REPOSITORIO";
 
-// Lista automática con tus 39 imágenes y 5 GIFs
+const BASE_URL = `https://githubusercontent.com{MIN_USER_GITHUB}/${MI_REPO_GITHUB}/main/`;
+
+// Generación automática de la lista de tus 44 archivos
 const misFotos = [];
 
-// Agregar las imágenes (img1 a img39) - Asumiendo que son formato .jpg o .png (cambiar si es necesario)
+// Añadir imágenes (img1.jpg a img39.jpg)
 for (let i = 1; i <= 39; i++) {
-    misFotos.push(`${BASE_URL}img${i}.jpg`); 
+    misFotos.push(`${BASE_URL}img${i}.jpg`);
 }
 
-// Agregar los GIFs (gif1 a gif5)
+// Añadir GIFs (gif1.gif a gif5.gif)
 for (let i = 1; i <= 5; i++) {
     misFotos.push(`${BASE_URL}gif${i}.gif`);
 }
@@ -18,6 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const song = document.getElementById('birthday-song');
     const volumeSlider = document.getElementById('volume-slider');
 
+    // Inicializar volumen a la mitad
     song.volume = 0.5;
     volumeSlider.addEventListener('input', (e) => {
         song.volume = e.target.value;
@@ -28,7 +32,7 @@ function generateFloatingPhotos() {
     const area = document.getElementById('floating-area');
     area.innerHTML = "";
 
-    // Mezclar el orden para que las fotos y GIFs salgan revueltos
+    // Mezclamos el orden para que queden distribuidos fotos y gifs al azar
     const fotosMezcladas = [...misFotos].sort(() => Math.random() - 0.5);
 
     fotosMezcladas.forEach((url, index) => {
@@ -39,32 +43,33 @@ function generateFloatingPhotos() {
         img.src = url;
         img.alt = `Momento Greysi`;
         
-        // Evita que la página se rompa si alguna imagen aún no sube a GitHub
+        // Si una imagen falla por no estar en GitHub, se oculta limpiamente
         img.onerror = function() {
-            this.parentElement.style.display = 'none'; 
+            this.parentElement.style.display = 'none';
         };
         
         photoDiv.appendChild(img);
 
-        // Distribución inteligente para evitar que se encimen todas en un solo lugar
-        const columnas = 8; // Dividimos la pantalla virtualmente en columnas
+        // Distribución en rejilla horizontal aleatoria inteligente
+        const columnas = 6; 
         const colIdx = index % columnas;
         const leftPercent = (colIdx * (100 / columnas)) + (Math.random() * 6);
-        const topPercent = 5 + (Math.random() * 75); // Rango vertical amplio
+        
+        // Dispersión vertical progresiva para que requiera deslizar (scrollear) el contenedor
+        const topPercent = (index * 4.5) + (Math.random() * 8);
 
-        // Rotaciones casuales para estilo Polaroid suelto
-        const rotBase = (Math.random() * 20 - 10) + "deg"; 
+        // Ángulos de inclinación estilo fotos impresas sueltas
+        const rotBase = (Math.random() * 22 - 11) + "deg"; 
         const rotOffset = (Math.random() * 12 - 6) + "deg";
 
-        // Estilos de posición y animación
         photoDiv.style.left = `${leftPercent}%`;
-        photoDiv.style.top = `${topPercent}%`;
+        photoDiv.style.top = `${topPercent}px`;
         photoDiv.style.setProperty('--rot-base', rotBase);
         photoDiv.style.setProperty('--rot-offset', rotOffset);
         photoDiv.style.zIndex = index + 1;
 
-        // Velocidades de flotación variadas para que se vea orgánico
-        const duration = 5 + Math.random() * 4; 
+        // Ritmos de flotación distintos para dar un efecto natural asincrónico
+        const duration = 5 + Math.random() * 3.5; 
         photoDiv.style.animation = `floatUpAndDown ${duration}s ease-in-out infinite`;
 
         area.appendChild(photoDiv);
@@ -84,6 +89,7 @@ function goToWindow(windowNumber) {
         nextWindow.classList.add('active');
     }
 
+    // Al ingresar a la ventana de fotos (Ventana 2)
     if (windowNumber === 2) {
         const song = document.getElementById('birthday-song');
         const volumeContainer = document.getElementById('volume-container');
@@ -92,7 +98,7 @@ function goToWindow(windowNumber) {
         generateFloatingPhotos();
 
         song.play().catch(error => {
-            console.log("Audio en espera de interacción:", error);
+            console.log("Audio listo. Esperando interacción inicial en dispositivos móviles:", error);
         });
     }
 }
