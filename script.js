@@ -1,33 +1,3 @@
-// ⚠️ REEMPLAZA ESTOS DOS DATOS CON TU CONFIGURACIÓN REAL DE GITHUB
-const MIN_USER_GITHUB = "TU_USUARIO"; 
-const MI_REPO_GITHUB = "TU_REPOSITORIO";
-
-const BASE_URL = `https://githubusercontent.com{MIN_USER_GITHUB}/${MI_REPO_GITHUB}/main/`;
-
-// Generación automática de la lista de tus 44 archivos
-const misFotos = [];
-
-// Añadir imágenes (img1.jpg a img39.jpg)
-for (let i = 1; i <= 39; i++) {
-    misFotos.push(`${BASE_URL}img${i}.jpg`);
-}
-
-// Añadir GIFs (gif1.gif a gif5.gif)
-for (let i = 1; i <= 5; i++) {
-    misFotos.push(`${BASE_URL}gif${i}.gif`);
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    const song = document.getElementById('birthday-song');
-    const volumeSlider = document.getElementById('volume-slider');
-
-    // Inicializar volumen a la mitad
-    song.volume = 0.5;
-    volumeSlider.addEventListener('input', (e) => {
-        song.volume = e.target.value;
-    });
-});
-
 function generateFloatingPhotos() {
     const area = document.getElementById('floating-area');
     area.innerHTML = "";
@@ -40,11 +10,14 @@ function generateFloatingPhotos() {
         photoDiv.classList.add('floating-photo');
 
         const img = document.createElement('img');
-        img.src = url;
+        
+        // Forzamos la ruta relativa estricta (./archivo.jpg)
+        img.src = "./" + url;
         img.alt = `Momento Greysi`;
         
-        // Si una imagen falla por no estar en GitHub, se oculta limpiamente
+        // Mensaje de diagnóstico en la consola del navegador por si algo falla
         img.onerror = function() {
+            console.log("No se pudo cargar el archivo en la ruta: " + this.src);
             this.parentElement.style.display = 'none';
         };
         
@@ -56,7 +29,7 @@ function generateFloatingPhotos() {
         const leftPercent = (colIdx * (100 / columnas)) + (Math.random() * 6);
         
         // Dispersión vertical progresiva para que requiera deslizar (scrollear) el contenedor
-        const topPercent = (index * 4.5) + (Math.random() * 8);
+        const topPercent = (index * 45) + (Math.random() * 8);
 
         // Ángulos de inclinación estilo fotos impresas sueltas
         const rotBase = (Math.random() * 22 - 11) + "deg"; 
@@ -74,31 +47,4 @@ function generateFloatingPhotos() {
 
         area.appendChild(photoDiv);
     });
-}
-
-function goToWindow(windowNumber) {
-    const currentWindow = document.querySelector('.window.active');
-    if (currentWindow) {
-        currentWindow.classList.remove('active');
-        currentWindow.classList.add('hidden');
-    }
-
-    const nextWindow = document.getElementById(`window-${windowNumber}`);
-    if (nextWindow) {
-        nextWindow.classList.remove('hidden');
-        nextWindow.classList.add('active');
-    }
-
-    // Al ingresar a la ventana de fotos (Ventana 2)
-    if (windowNumber === 2) {
-        const song = document.getElementById('birthday-song');
-        const volumeContainer = document.getElementById('volume-container');
-
-        volumeContainer.classList.remove('hidden');
-        generateFloatingPhotos();
-
-        song.play().catch(error => {
-            console.log("Audio listo. Esperando interacción inicial en dispositivos móviles:", error);
-        });
-    }
 }
