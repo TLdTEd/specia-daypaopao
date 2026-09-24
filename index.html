@@ -30,14 +30,19 @@
         </div>
     </section>
 
-    <!-- VENTANA 2: Galería de Fotos Flotantes -->
+     <!-- VENTANA 2: Galería de Fotos Flotantes -->
     <section id="window-2" class="window hidden">
         <div class="container-fluid">
             <h2>PaoPao</h2>
             <p class="subtitle">La vida son momentos...</p>
             
             <!-- Contenedor amplio para la lluvia de recuerdos -->
-            <div class="floating-area" id="floating-area"></div>
+            <div class="floating-area" id="floating-area">
+                <!-- 📸 IMAGEN DE PRUEBA DIRECTA -->
+                <div class="floating-photo" style="left: 40%; top: 50px; --rot-base: 5deg; --rot-offset: -5deg; animation: floatUpAndDown 5s ease-in-out infinite;">
+                    <img src="img1.jpg" alt="Prueba de ruta">
+                </div>
+            </div>
 
             <button class="btn btn-next" onclick="goToWindow(3)">Siguiente ➡️</button>
         </div>
