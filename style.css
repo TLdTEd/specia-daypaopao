@@ -19,8 +19,8 @@ body {
 /* Control de Ventanas */
 .window {
     width: 100%;
-    max-width: 900px;
-    padding: 30px 20px;
+    max-width: 1000px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,7 +56,7 @@ body {
     font-size: 3.5rem;
     display: block;
     margin-bottom: 15px;
-    animation: float 3s ease-in-out infinite;
+    animation: floatIcon 3s ease-in-out infinite;
 }
 
 h1, h2 {
@@ -75,47 +75,64 @@ h1, h2 {
 
 .subtitle {
     margin-top: -15px;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
     color: #a3979e;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
+    text-align: center;
 }
 
-/* El Muro de Fotos (Garantiza alturas dinámicas) */
-.photo-wall {
-    column-count: 3;
-    column-gap: 15px;
+.container-fluid {
     width: 100%;
-    max-width: 800px;
-    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.photo-item {
+/* Área de Fotos Flotantes */
+.floating-area {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 480px;
+    margin-bottom: 25px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 20px;
+}
+
+/* Estilo individual Polaroid Flotante */
+.floating-photo {
+    position: absolute;
     background: white;
-    break-inside: avoid;
-    margin-bottom: 15px;
-    border-radius: 16px;
-    padding: 10px;
-    box-shadow: 0 4px 15px rgba(237, 175, 184, 0.2);
-    transition: transform 0.3s ease;
+    padding: 8px 8px 22px 8px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(237, 175, 184, 0.35);
+    max-width: 130px;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0.1s ease;
 }
 
-.photo-item:hover {
-    transform: scale(1.03) rotate(1deg);
-}
-
-.photo-item img {
+.floating-photo img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
+    border-radius: 8px;
     display: block;
 }
 
-/* Botones Suaves */
+.floating-photo:hover {
+    transform: scale(1.25) rotate(0deg) !important;
+    z-index: 9999 !important;
+}
+
+/* Botones */
 .btn {
     background: #ffb3c6;
     color: white;
     border: none;
-    padding: 14px 32px;
+    padding: 14px 35px;
     font-size: 1rem;
     font-weight: 600;
     border-radius: 50px;
@@ -130,30 +147,23 @@ h1, h2 {
     box-shadow: 0 8px 20px rgba(255, 143, 163, 0.5);
 }
 
+.btn-next {
+    z-index: 1001; /* Asegura quedar sobre las fotos */
+}
+
 .signature {
     font-style: italic;
     color: #ff8fa3;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 10px;
 }
 
-/* Animaciones */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-/* Responsivo para Celulares */
-@media (max-width: 600px) {
-    .photo-wall {
-        column-count: 2;
-    }
-    h1, h2 { font-size: 1.8rem; }
-}
 /* Control de Volumen Flotante */
 .volume-ctrl {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 25px;
+    right: 25px;
     background: rgba(255, 255, 255, 0.85);
     padding: 10px 15px;
     border-radius: 30px;
@@ -161,7 +171,7 @@ h1, h2 {
     display: flex;
     align-items: center;
     gap: 10px;
-    z-index: 1000;
+    z-index: 2000;
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.6);
     transition: opacity 0.5s ease;
@@ -170,7 +180,7 @@ h1, h2 {
 #volume-slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 80px;
+    width: 75px;
     height: 6px;
     background: #ffe5ec;
     border-radius: 5px;
@@ -182,12 +192,25 @@ h1, h2 {
     appearance: none;
     width: 14px;
     height: 14px;
-    border-radius: 50px;
+    border-radius: 50%;
     background: #ff8fa3;
     cursor: pointer;
-    transition: transform 0.1s;
 }
 
-#volume-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
+/* Animaciones */
+@keyframes floatIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes floatUpAndDown {
+    0%, 100% { transform: translateY(0) rotate(var(--rot-base)); }
+    50% { transform: translateY(-18px) rotate(var(--rot-offset)); }
+}
+
+/* Ajuste Móvil */
+@media (max-width: 600px) {
+    .floating-photo { max-width: 95px; padding: 6px 6px 16px 6px; }
+    h1, h2 { font-size: 1.7rem; }
+    .floating-area { height: 65vh; }
 }
