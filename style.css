@@ -148,7 +148,7 @@ h1, h2 {
 }
 
 .btn-next {
-    z-index: 1001; /* Asegura quedar sobre las fotos */
+    z-index: 1001;
 }
 
 .signature {
@@ -197,23 +197,6 @@ h1, h2 {
     cursor: pointer;
 }
 
-/* Animaciones */
-@keyframes floatIcon {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-@keyframes floatUpAndDown {
-    0%, 100% { transform: translateY(0) rotate(var(--rot-base)); }
-    50% { transform: translateY(-18px) rotate(var(--rot-offset)); }
-}
-
-/* Ajuste Móvil */
-@media (max-width: 600px) {
-    .floating-photo { max-width: 95px; padding: 6px 6px 16px 6px; }
-    h1, h2 { font-size: 1.7rem; }
-    .floating-area { height: 65vh; }
-}
 /* Contenedor del jardín en la ventana final */
 .garden-bg {
     position: absolute;
@@ -222,7 +205,7 @@ h1, h2 {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 1; /* Detrás del texto */
+    z-index: 1;
     pointer-events: none;
 }
 
@@ -231,7 +214,7 @@ h1, h2 {
     position: absolute;
     bottom: 0;
     display: flex;
-    flex-direction: column-reverse; /* El tallo abajo, el capullo arriba */
+    flex-direction: column-reverse;
     align-items: center;
     transform-origin: bottom center;
     animation: growTulip 3.5s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
@@ -240,7 +223,7 @@ h1, h2 {
 /* El tallo verde pastel */
 .flower-stem {
     width: 5px;
-    background: #a3ccab; /* Verde suave */
+    background: #a3ccab;
     border-radius: 4px;
     height: var(--stem-height);
     position: relative;
@@ -267,7 +250,7 @@ h1, h2 {
     border-radius: 15px 15px 4px 4px;
     position: relative;
     box-shadow: inset -4px -4px 10px rgba(0,0,0,0.05);
-    margin-bottom: -2px; /* Unión perfecta con el tallo */
+    margin-bottom: -2px;
 }
 
 /* Pétalo central del tulipán */
@@ -282,7 +265,7 @@ h1, h2 {
     border-radius: 10px 10px 0 0;
 }
 
-/* Corte característico del tulipán en la punta */
+/* Corte característico en la punta */
 .tulip-head::after {
     content: '';
     position: absolute;
@@ -290,13 +273,30 @@ h1, h2 {
     left: 11px;
     width: 8px;
     height: 8px;
-    background: #fff0f3; /* Debe coincidir con el color de fondo de tu ventana */
+    background: #fff0f3;
     transform: rotate(45deg);
     border-radius: 2px;
 }
 
-/* Animación de nacimiento */
+/* Animaciones */
+@keyframes floatIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes floatUpAndDown {
+    0%, 100% { transform: translateY(0) rotate(var(--rot-base)); }
+    50% { transform: translateY(-18px) rotate(var(--rot-offset)); }
+}
+
 @keyframes growTulip {
     0% { transform: scale(0) translateY(50px); opacity: 0; }
     100% { transform: scale(1) translateY(0); opacity: 0.9; }
+}
+
+/* Ajuste Móvil */
+@media (max-width: 600px) {
+    .floating-photo { max-width: 95px; padding: 6px 6px 16px 6px; }
+    h1, h2 { font-size: 1.7rem; }
+    .floating-area { height: 65vh; }
 }
