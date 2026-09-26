@@ -147,23 +147,32 @@ function spawnInteractiveTulip(x, y) {
     }, 4000);
 }
 
-// Configura los oyentes táctiles para la ventana de cierre
+// Configura los oyentes táctiles para la ventana de cierre en toda la pantalla
 function setupInputListeners() {
-    const window3 = document.getElementById('window-3');
-    if (!window3) return;
-
-    // Detectar clics de mouse tradicionales
-    window3.addEventListener('click', (e) => {
-        // Evitamos disparar la flor si interactúa con el botón o un enlace dentro de la tarjeta
+    // Escuchar el clic del mouse (Computadora)
+    document.addEventListener('click', (e) => {
+        // Solo funciona si estamos parados viendo la ventana 3
+        const window3 = document.getElementById('window-3');
+        if (!window3 || window3.classList.contains('hidden')) return;
+        
+        // No creamos flores si toca dentro del mensaje blanco
         if (e.target.closest('.card')) return;
+        
         spawnInteractiveTulip(e.clientX, e.clientY);
     });
 
-    // Detectar toques de dedos directos en celulares
-    window3.addEventListener('touchstart', (e) => {
+    // Escuchar el toque del dedo (Celular)
+    document.addEventListener('touchstart', (e) => {
+        const window3 = document.getElementById('window-3');
+        if (!window3 || window3.classList.contains('hidden')) return;
+        
         if (e.target.closest('.card')) return;
-        const touch = e.touches[0];
-        spawnInteractiveTulip(touch.clientX, touch.clientY);
+
+        // Corrección técnica: Extraer el primer dedo que toca la pantalla (index 0)
+        if (e.touches && e.touches.length > 0) {
+            const touch = e.touches[0];
+            spawnInteractiveTulip(touch.clientX, touch.clientY);
+        }
     });
 }
 
