@@ -102,7 +102,7 @@ function createDigitalGarden() {
         // Elegir color al azar de la paleta
         const colorElegido = coloresTulipanes[Math.floor(Math.random() * coloresTulipanes.length)];
 
-        // Inyectamos el capullo con su variable de color y el tallo verde
+        // ORDEN NATURAL: Inyectamos primero la cabeza (arriba) y luego el tallo (abajo)
         tulip.innerHTML = `
             <div class="tulip-head" style="--tulip-color: ${colorElegido};"></div>
             <div class="flower-stem" style="--stem-height: ${stemHeight}px;"></div>
@@ -157,7 +157,7 @@ function goToWindow(windowNumber) {
             volumeContainer.classList.add('hidden');
         }
 
-        // Activar el campo de tulipanes digitales
+        // Activar el campo de tulipanes digitales derecho
         createDigitalGarden();
     }
 }
