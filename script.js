@@ -108,5 +108,42 @@ function goToWindow(windowNumber) {
                 console.log("El audio requiere interacción o el archivo falta:", error);
             });
         }
+        // Función para sembrar tulipanes de manera aleatoria en el fondo
+function createDigitalGarden() {
+    const garden = document.getElementById('flower-garden');
+    if (!garden) return;
+
+    garden.innerHTML = ""; // Limpiar por si acaso
+
+    // Crearemos unos 20 tulipanes para rellenar bien la parte baja
+    const cantidadTulipanes = 20;
+
+    // Paleta de tulipanes pastel (Rosas, amarillos, lilas, naranjas suaves y crema)
+    const coloresTulipanes = ["#ffb3c6", "#ffcad4", "#ffe5ec", "#ffccd5", "#fde2e4", "#fff3b0", "#e8e8e4", "#fae1dd", "#dfccfb"];
+
+    for (let i = 0; i < cantidadTulipanes; i++) {
+        const tulip = document.createElement('div');
+        tulip.classList.add('digital-flower');
+
+        // Posición horizontal distribuida por la pantalla con un toque de azar
+        const leftPos = (i * (100 / cantidadTulipanes)) + (Math.random() * 2);
+        tulip.style.left = `${leftPos}%`;
+
+        // Altura orgánica de los tallos (entre 70px y 210px)
+        const stemHeight = 70 + Math.random() * 140;
+        
+        // Elegir color al azar de la paleta
+        const colorElegido = coloresTulipanes[Math.floor(Math.random() * coloresTulipanes.length)];
+
+        // Inyectamos el capullo con su variable de color y el tallo verde
+        tulip.innerHTML = `
+            <div class="tulip-head" style="--tulip-color: ${colorElegido};"></div>
+            <div class="flower-stem" style="--stem-height: ${stemHeight}px;"></div>
+        `;
+        
+        // Ritmos de nacimiento desfasados para que broten uno por uno suavemente
+        tulip.style.animationDelay = `${Math.random() * 2.2}s`;
+
+        garden.appendChild(tulip);
     }
 }
