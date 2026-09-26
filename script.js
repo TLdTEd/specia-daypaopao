@@ -11,6 +11,9 @@ const misFotos = [
     "gif1.gif", "gif2.gif", "gif3.gif", "gif4.gif", "gif5.gif"
 ];
 
+// Paleta de colores pastel compartida para toda la vegetación digital
+const coloresTulipanes = ["#ffb3c6", "#ffcad4", "#ffe5ec", "#ffccd5", "#fde2e4", "#fff3b0", "#e8e8e4", "#fae1dd", "#dfccfb"];
+
 window.addEventListener('DOMContentLoaded', () => {
     const song = document.getElementById('birthday-song');
     const volumeSlider = document.getElementById('volume-slider');
@@ -67,56 +70,101 @@ function generateFloatingPhotos() {
     });
 }
 
-// 🌸 Función para generar una lluvia infinita y natural de tulipanes cayendo
+// 🌸 Genera la cortina infinita de tulipanes flotando de fondo
 function createDigitalGarden() {
     const garden = document.getElementById('flower-garden');
     if (!garden) return;
 
     garden.innerHTML = ""; 
 
-    // Lanzaremos 25 tulipanes con configuraciones completamente distintas
     const cantidadTulipanes = 25;
-    const coloresTulipanes = ["#ffb3c6", "#ffcad4", "#ffe5ec", "#ffccd5", "#fde2e4", "#fff3b0", "#e8e8e4", "#fae1dd", "#dfccfb"];
 
     for (let i = 0; i < cantidadTulipanes; i++) {
         const tulip = document.createElement('div');
         tulip.classList.add('digital-flower');
 
-        // Dispersión horizontal completa en toda la pantalla (0% a 95%)
         const leftPos = Math.random() * 95;
         tulip.style.left = `${leftPos}%`;
 
-        // Parámetros de caída (Tiempos lentos y estéticos: entre 6 y 11 segundos por ciclo)
         const fallDuration = 6 + Math.random() * 5;
-        // Tiempos de balanceo lateral por viento (entre 3 y 5 segundos)
         const swayDuration = 3 + Math.random() * 2;
-        // Distancia que recorre de izquierda a derecha al balancearse (entre 20px y 50px)
         const swayDistance = (20 + Math.random() * 30) + "px";
 
-        // Ángulos de rotación orgánicos para que simulen dar vueltas flotando
-        const rotMin = (Math.random() * -30 - 10) + "deg"; // entre -10 y -40 grados
-        const rotMax = (Math.random() * 30 + 10) + "deg";  // entre 10 y 40 grados
+        const rotMin = (Math.random() * -30 - 10) + "deg"; 
+        const rotMax = (Math.random() * 30 + 10) + "deg";
 
         const colorElegido = coloresTulipanes[Math.floor(Math.random() * coloresTulipanes.length)];
 
-        // Inyectamos cabeza y un tallo flotante
         tulip.innerHTML = `
             <div class="tulip-head" style="--tulip-color: ${colorElegido};"></div>
             <div class="flower-stem"></div>
         `;
         
-        // Asignamos las variables personalizadas al CSS de este tulipán específico
         tulip.style.setProperty('--fall-duration', `${fallDuration}s`);
         tulip.style.setProperty('--sway-duration', `${swayDuration}s`);
         tulip.style.setProperty('--sway-distance', swayDistance);
         tulip.style.setProperty('--rot-min', rotMin);
         tulip.style.setProperty('--rot-max', rotMax);
 
-        // Desfases de inicio para que no caigan todos al mismo tiempo en el primer segundo
-        tulip.style.animationDelay = `${Math.random() * -10}s`; // Negativo para que ya estén cayendo al abrir
+        tulip.style.animationDelay = `${Math.random() * -10}s`;
 
         garden.appendChild(tulip);
     }
+}
+
+// ✨ Interacción Mágica: Siembra un tulipán en las coordenadas exactas de la pantalla
+function spawnInteractiveTulip(x, y) {
+    const garden = document.getElementById('flower-garden');
+    if (!garden) return;
+
+    const interactiveTulip = document.createElement('div');
+    interactiveTulip.classList.add('clicked-flower');
+
+    // Ubicamos la base de la flor centrada en el punto de contacto
+    interactiveTulip.style.left = `${x - 11}px`; 
+    interactiveTulip.style.top = `${y - 30}px`;
+
+    // Efectos de viento únicos para esta flor táctil
+    const swayDistance = (15 + Math.random() * 20) + "px";
+    const rotMin = (Math.random() * -20 - 5) + "deg";
+    const rotMax = (Math.random() * 20 + 5) + "deg";
+    const colorElegido = coloresTulipanes[Math.floor(Math.random() * coloresTulipanes.length)];
+
+    interactiveTulip.innerHTML = `
+        <div class="tulip-head" style="--tulip-color: ${colorElegido};"></div>
+        <div class="flower-stem" style="height: 35px;"></div>
+    `;
+
+    interactiveTulip.style.setProperty('--sway-distance', swayDistance);
+    interactiveTulip.style.setProperty('--rot-min', rotMin);
+    interactiveTulip.style.setProperty('--rot-max', rotMax);
+
+    garden.appendChild(interactiveTulip);
+
+    // Borramos el elemento después de que su animación de ascenso termine para no saturar memoria
+    setTimeout(() => {
+        interactiveTulip.remove();
+    }, 4000);
+}
+
+// Configura los oyentes táctiles para la ventana de cierre
+function setupInputListeners() {
+    const window3 = document.getElementById('window-3');
+    if (!window3) return;
+
+    // Detectar clics de mouse tradicionales
+    window3.addEventListener('click', (e) => {
+        // Evitamos disparar la flor si interactúa con el botón o un enlace dentro de la tarjeta
+        if (e.target.closest('.card')) return;
+        spawnInteractiveTulip(e.clientX, e.clientY);
+    });
+
+    // Detectar toques de dedos directos en celulares
+    window3.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.card')) return;
+        const touch = e.touches[0];
+        spawnInteractiveTulip(touch.clientX, touch.clientY);
+    });
 }
 
 function goToWindow(windowNumber) {
@@ -153,7 +201,11 @@ function goToWindow(windowNumber) {
         if (volumeContainer) {
             volumeContainer.classList.add('hidden');
         }
-        // Iniciar lluvia tridimensional de tulipanes pastel
+        
+        // 1. Desplegar la cortina infinita de tulipanes al viento
         createDigitalGarden();
+        
+        // 2. Encender los sensores para clics o toques táctiles
+        setupInputListeners();
     }
 }
