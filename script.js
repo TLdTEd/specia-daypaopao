@@ -15,7 +15,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const song = document.getElementById('birthday-song');
     const volumeSlider = document.getElementById('volume-slider');
 
-    // Inicializar volumen a la mitad (0.5)
     if (song) song.volume = 0.5;
     
     if (volumeSlider && song) {
@@ -31,7 +30,6 @@ function generateFloatingPhotos() {
     
     area.innerHTML = ""; 
 
-    // Mezclamos el orden para que queden distribuidos al azar
     const fotosMezcladas = [...misFotos].sort(() => Math.random() - 0.5);
 
     fotosMezcladas.forEach((url, index) => {
@@ -39,25 +37,20 @@ function generateFloatingPhotos() {
         photoDiv.classList.add('floating-photo');
 
         const img = document.createElement('img');
-        img.src = "./" + url; // Carga local relativa estricta
+        img.src = "./" + url;
         img.alt = `Momento Greysi`;
         
-        // Si una imagen falla por no estar lista, se oculta limpiamente sin romper el script
         img.onerror = function() {
             this.parentElement.style.display = 'none';
         };
         
         photoDiv.appendChild(img);
 
-        // Distribución en rejilla horizontal aleatoria inteligente
         const columnas = 5; 
         const colIdx = index % columnas;
         const leftPercent = (colIdx * (100 / columnas)) + (Math.random() * 8);
-        
-        // Espaciado dinámico en píxeles hacia abajo para poder scrollear
         const topPercent = (index * 60) + (Math.random() * 15);
 
-        // Ángulos de inclinación estilo Polaroid
         const rotBase = (Math.random() * 20 - 10) + "deg"; 
         const rotOffset = (Math.random() * 10 - 5) + "deg";
 
@@ -67,7 +60,6 @@ function generateFloatingPhotos() {
         photoDiv.style.setProperty('--rot-offset', rotOffset);
         photoDiv.style.zIndex = index + 1;
 
-        // Ritmos de flotación distintos
         const duration = 4 + Math.random() * 3; 
         photoDiv.style.animation = `floatUpAndDown ${duration}s ease-in-out infinite`;
 
@@ -75,73 +67,71 @@ function generateFloatingPhotos() {
     });
 }
 
-// Función para sembrar tulipanes de manera aleatoria en el fondo
+// 🌸 Función para generar una lluvia infinita y natural de tulipanes cayendo
 function createDigitalGarden() {
     const garden = document.getElementById('flower-garden');
     if (!garden) return;
 
     garden.innerHTML = ""; 
 
-    // 22 tulipanes bien distribuidos
-    const cantidadTulipanes = 22;
+    // Lanzaremos 25 tulipanes con configuraciones completamente distintas
+    const cantidadTulipanes = 25;
     const coloresTulipanes = ["#ffb3c6", "#ffcad4", "#ffe5ec", "#ffccd5", "#fde2e4", "#fff3b0", "#e8e8e4", "#fae1dd", "#dfccfb"];
-
-    // Detectar si es un dispositivo móvil (pantalla pequeña)
-    const esMovil = window.innerWidth < 600;
 
     for (let i = 0; i < cantidadTulipanes; i++) {
         const tulip = document.createElement('div');
         tulip.classList.add('digital-flower');
 
-        // Posición horizontal distribuida por la pantalla con un toque de azar
-        const leftPos = (i * (100 / cantidadTulipanes)) + (Math.random() * 1.5);
+        // Dispersión horizontal completa en toda la pantalla (0% a 95%)
+        const leftPos = Math.random() * 95;
         tulip.style.left = `${leftPos}%`;
 
-        // LÓGICA DE ALTURA INTERACTIVA: En el centro (donde está la tarjeta) serán bajitos.
-        // En los bordes (izquierdo y derecho) crecerán muy alto para salir al lado de la tarjeta.
-        const centroOriginal = i / cantidadTulipanes; // Valor entre 0 y 1
-        const distanciaAlCentro = Math.abs(centroOriginal - 0.5); // Qué tan lejos está del medio
+        // Parámetros de caída (Tiempos lentos y estéticos: entre 6 y 11 segundos por ciclo)
+        const fallDuration = 6 + Math.random() * 5;
+        // Tiempos de balanceo lateral por viento (entre 3 y 5 segundos)
+        const swayDuration = 3 + Math.random() * 2;
+        // Distancia que recorre de izquierda a derecha al balancearse (entre 20px y 50px)
+        const swayDistance = (20 + Math.random() * 30) + "px";
 
-        let stemHeight;
-        if (esMovil) {
-            // En móvil la tarjeta es alta: los de las esquinas crecen mucho más alto para enmarcar el texto
-            stemHeight = 80 + (distanciaAlCentro * 480) + (Math.random() * 25);
-        } else {
-            // En computadora la distribución es estándar horizontal
-            stemHeight = 70 + Math.random() * 140;
-        }
-        
+        // Ángulos de rotación orgánicos para que simulen dar vueltas flotando
+        const rotMin = (Math.random() * -30 - 10) + "deg"; // entre -10 y -40 grados
+        const rotMax = (Math.random() * 30 + 10) + "deg";  // entre 10 y 40 grados
+
         const colorElegido = coloresTulipanes[Math.floor(Math.random() * coloresTulipanes.length)];
 
-        // ORDEN NATURAL: Inyectamos primero la cabeza (arriba) y luego el tallo (abajo)
+        // Inyectamos cabeza y un tallo flotante
         tulip.innerHTML = `
             <div class="tulip-head" style="--tulip-color: ${colorElegido};"></div>
-            <div class="flower-stem" style="--stem-height: ${stemHeight}px;"></div>
+            <div class="flower-stem"></div>
         `;
         
-        // Ritmos de nacimiento desfasados para que broten uno por uno suavemente
-        tulip.style.animationDelay = `${Math.random() * 2}s`;
+        // Asignamos las variables personalizadas al CSS de este tulipán específico
+        tulip.style.setProperty('--fall-duration', `${fallDuration}s`);
+        tulip.style.setProperty('--sway-duration', `${swayDuration}s`);
+        tulip.style.setProperty('--sway-distance', swayDistance);
+        tulip.style.setProperty('--rot-min', rotMin);
+        tulip.style.setProperty('--rot-max', rotMax);
+
+        // Desfases de inicio para que no caigan todos al mismo tiempo en el primer segundo
+        tulip.style.animationDelay = `${Math.random() * -10}s`; // Negativo para que ya estén cayendo al abrir
 
         garden.appendChild(tulip);
     }
 }
 
 function goToWindow(windowNumber) {
-    // Ocultar la ventana actual
     const currentWindow = document.querySelector('.window.active');
     if (currentWindow) {
         currentWindow.classList.remove('active');
         currentWindow.classList.add('hidden');
     }
 
-    // Mostrar la ventana seleccionada
     const nextWindow = document.getElementById(`window-${windowNumber}`);
     if (nextWindow) {
         nextWindow.classList.remove('hidden');
         nextWindow.classList.add('active');
     }
 
-    // Al ingresar a la ventana de fotos (Ventana 2)
     if (windowNumber === 2) {
         const song = document.getElementById('birthday-song');
         const volumeContainer = document.getElementById('volume-container');
@@ -149,26 +139,21 @@ function goToWindow(windowNumber) {
         if (volumeContainer) {
             volumeContainer.classList.remove('hidden');
         }
-        
-        // Cargar las fotos y GIFs flotantes
         generateFloatingPhotos();
 
-        // Reproducir cancion.mp3 de manera segura gracias al clic de "PaoPao"
         if (song) {
             song.play().catch(error => {
-                console.log("No se pudo iniciar el audio:", error);
+                console.log("Audio listo:", error);
             });
         }
     }
     
-    // Al pasar a la despedida (Ventana 3)
     if (windowNumber === 3) {
         const volumeContainer = document.getElementById('volume-container');
         if (volumeContainer) {
             volumeContainer.classList.add('hidden');
         }
-
-        // Activar el campo de tulipanes digitales derecho con alturas adaptadas
+        // Iniciar lluvia tridimensional de tulipanes pastel
         createDigitalGarden();
     }
 }
