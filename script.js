@@ -147,29 +147,30 @@ function spawnInteractiveTulip(x, y) {
     }, 4000);
 }
 
-// Configura los oyentes táctiles globales de forma correcta
 function setupInputListeners() {
-    // 🖥️ Escuchar clics de mouse (Computadora)
-    document.addEventListener('click', (e) => {
-        const window3 = document.getElementById('window-3');
-        if (!window3 || window3.classList.contains('hidden')) return;
-        if (e.target.closest('.card')) return; // No dispara en la tarjeta blanca
+    const window3 = document.getElementById('window-3');
+    if (!window3) return;
+
+    // 🖥️ Capturar clics en Computadora
+    window3.addEventListener('click', (e) => {
+        // Si hace clic dentro del mensaje de texto blanco, no creamos flores
+        if (e.target.closest('.card')) return;
         
         spawnInteractiveTulip(e.clientX, e.clientY);
     });
 
-    // 📱 Escuchar toques en pantallas táctiles (Celular)
-    document.addEventListener('touchstart', (e) => {
-        const window3 = document.getElementById('window-3');
-        if (!window3 || window3.classList.contains('hidden')) return;
-        if (e.target.closest('.card')) return; // No dispara en la tarjeta blanca
+    // 📱 Capturar toques en Celular (Verificado)
+    window3.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.card')) return;
 
-        // CORRECCIÓN CLAVE: Acceso correcto a la lista de toques activos del navegador móvil
+        // Leemos el primer dedo en tocar la pantalla de forma estricta
         if (e.touches && e.touches.length > 0) {
-            const firstTouch = e.touches[0];
-            spawnInteractiveTulip(firstTouch.clientX, firstTouch.clientY);
+            const touch = e.touches[0];
+            
+            // Usamos el cliente nativo de coordenadas del dispositivo
+            spawnInteractiveTulip(touch.clientX, touch.clientY);
         }
-    });
+    }, { passive: true }); // Optimiza el rendimiento táctil en celulares
 }
 
 function goToWindow(windowNumber) {
