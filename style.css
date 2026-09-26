@@ -50,7 +50,7 @@ body {
     backdrop-filter: blur(12px);
     max-width: 550px;
     text-align: center;
-    z-index: 5; /* Por encima de la lluvia de flores */
+    z-index: 5;
 }
 
 .icon {
@@ -198,28 +198,39 @@ h1, h2 {
     cursor: pointer;
 }
 
-/* 🌸 ATMÓSFERA DE LLUVIA DE TULIPANES (Nuevo concepto de pantalla completa) */
+/* 🌸 LLUVIA INFINITA DE TULIPANES */
 .garden-bg {
-    position: fixed; /* Ocupa toda la ventana del navegador */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    z-index: 1; /* Pasa por detrás del texto de la tarjeta */
+    z-index: 1;
     pointer-events: none;
 }
 
 .digital-flower {
     position: absolute;
-    top: -50px; /* Inician arriba fuera de pantalla */
+    top: -50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     transform-origin: center;
     opacity: 0.85;
-    /* Animación combinada de caída y balanceo de viento */
     animation: fallTulip var(--fall-duration) linear infinite, swayTulip var(--sway-duration) ease-in-out infinite;
+}
+
+/* ✨ TULIPANES GENERADOS POR CLIC / TOQUE */
+.clicked-flower {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: bottom center;
+    z-index: 2;
+    pointer-events: none;
+    animation: riseAndFade 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, swayTulip 2s ease-in-out infinite;
 }
 
 .tulip-head {
@@ -242,7 +253,6 @@ h1, h2 {
     border-radius: 9px 9px 0 0;
 }
 
-/* Tallo minimalista curvo que da efecto de estar flotando desprendido */
 .flower-stem {
     width: 3px;
     height: 25px;
@@ -252,23 +262,34 @@ h1, h2 {
     transform: rotate(-10deg);
 }
 
-/* Animación de caída libre vertical */
+/* Animación de caída (Fondo) */
 @keyframes fallTulip {
-    0% {
-        top: -50px;
-    }
-    100% {
-        top: 105vh;
-    }
+    0% { top: -50px; }
+    100% { top: 105vh; }
 }
 
-/* Animación de vaivén u oscilación (Efecto hoja al viento) */
+/* Animación de vaivén (Viento) */
 @keyframes swayTulip {
-    0%, 100% {
-        transform: translateX(0) rotate(var(--rot-min));
+    0%, 100% { transform: translateX(0) rotate(var(--rot-min, -15deg)); }
+    50% { transform: translateX(var(--sway-distance, 25px)) rotate(var(--rot-max, 15deg)); }
+}
+
+/* Animación especial para los tulipanes táctiles */
+@keyframes riseAndFade {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
     }
-    50% {
-        transform: translateX(var(--sway-distance)) rotate(var(--rot-max));
+    15% {
+        transform: scale(1.1);
+        opacity: 0.95;
+    }
+    30% {
+        transform: scale(1);
+    }
+    100% {
+        transform: translateY(-250px); /* Sube suavemente hacia arriba */
+        opacity: 0;
     }
 }
 
