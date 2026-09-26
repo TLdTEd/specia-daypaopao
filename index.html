@@ -8,10 +8,10 @@
 </head>
 <body>
 
-    <!-- Elemento de Audio Oculto -->
-    <audio id="birthday-song" loop>
-        <source src="cancion.mp3" type="audio/mpeg">
-        Tu navegador no soporta audio elemental.
+    <!-- Elemento de Audio Oculto (Carga cancion.mp3 localmente) -->
+    <audio id="birthday-song" loop preload="auto">
+        <source src="./cancion.mp3" type="audio/mpeg">
+        Tu navegador no soporta la reproducción de audio.
     </audio>
 
     <!-- CONTROL DE VOLUMEN FLOTANTE -->
@@ -30,39 +30,26 @@
         </div>
     </section>
 
-     <!-- VENTANA 2: Galería de Fotos Flotantes -->
+    <!-- VENTANA 2: Galería de Fotos Flotantes -->
     <section id="window-2" class="window hidden">
         <div class="container-fluid">
             <h2>PaoPao</h2>
             <p class="subtitle">La vida son momentos...</p>
             
             <!-- Contenedor amplio para la lluvia de recuerdos -->
-            <div class="floating-area" id="floating-area">
-                <!-- 📸 IMAGEN DE PRUEBA DIRECTA -->
-                <div class="floating-photo" style="left: 40%; top: 50px; --rot-base: 5deg; --rot-offset: -5deg; animation: floatUpAndDown 5s ease-in-out infinite;">
-                    <img src="img1.jpg" alt="Prueba de ruta">
-                </div>
-            </div>
+            <div class="floating-area" id="floating-area"></div>
 
             <button class="btn btn-next" onclick="goToWindow(3)">Siguiente ➡️</button>
         </div>
     </section>
 
-    <!-- VENTANA 3: Despedida y Buenos Deseos -->
+    <!-- VENTANA 3: Despedida y Buenos Deseos con Tulipanes -->
     <section id="window-3" class="window hidden" style="position: relative;">
         
-        <!-- 🌸 El contenedor del regalo de flores digitales (Nuevo) -->
+        <!-- Contenedor para el regalo de tulipanes digitales -->
         <div id="flower-garden" class="garden-bg"></div>
 
-        <div class="card font-soft" style="z-index: 5;"> <!-- Aseguramos que la tarjeta flote sobre las flores -->
-            <span class="icon">🎂</span>
-            <h2>Mis mejores deseos para ti</h2>
-            <p class="message">Perdón por de repente resultar hostigoso o por ser como soy, pero me importa que sonrias y que nunca lo dejes de hacer.</p>
-            <p class="signature">Con mucho cariño, Anibal...</p>
-        </div>
-    </section>
-    <section id="window-3" class="window hidden">
-        <div class="card font-soft">
+        <div class="card font-soft" style="z-index: 5;">
             <span class="icon">🎂</span>
             <h2>Mis mejores deseos para ti</h2>
             <p class="message">Perdón por de repente resultar hostigoso o por ser como soy, pero me importa que sonrias y que nunca lo dejes de hacer.</p>
