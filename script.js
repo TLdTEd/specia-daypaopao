@@ -1,20 +1,21 @@
 // Lista manual con tus 39 imágenes y 5 GIFs en formato local estricto
 const misFotos = [
-    "./img1.jpg", "./img2.jpg", "./img3.jpg", "./img4.jpg", "./img5.jpg",
-    "./img6.jpg", "./img7.jpg", "./img8.jpg", "./img9.jpg", "./img10.jpg",
-    "./img11.jpg", "./img12.jpg", "./img13.jpg", "./img14.jpg", "./img15.jpg",
-    "./img16.jpg", "./img17.jpg", "./img18.jpg", "./img19.jpg", "./img20.jpg",
-    "./img21.jpg", "./img22.jpg", "./img23.jpg", "./img24.jpg", "./img25.jpg",
-    "./img26.jpg", "./img27.jpg", "./img28.jpg", "./img29.jpg", "./img30.jpg",
-    "./img31.jpg", "./img32.jpg", "./img33.jpg", "./img34.jpg", "./img35.jpg",
-    "./img36.jpg", "./img37.jpg", "./img38.jpg", "./img39.jpg",
-    "./gif1.gif", "./gif2.gif", "./gif3.gif", "./gif4.gif", "./gif5.gif"
+    "img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg", "img5.jpg",
+    "img6.jpg", "img7.jpg", "img8.jpg", "img9.jpg", "img10.jpg",
+    "img11.jpg", "img12.jpg", "img13.jpg", "img14.jpg", "img15.jpg",
+    "img16.jpg", "img17.jpg", "img18.jpg", "img19.jpg", "img20.jpg",
+    "img21.jpg", "img22.jpg", "img23.jpg", "img24.jpg", "img25.jpg",
+    "img26.jpg", "img27.jpg", "img28.jpg", "img29.jpg", "img30.jpg",
+    "img31.jpg", "img32.jpg", "img33.jpg", "img34.jpg", "img35.jpg",
+    "img36.jpg", "img37.jpg", "img38.jpg", "img39.jpg",
+    "gif1.gif", "gif2.gif", "gif3.gif", "gif4.gif", "gif5.gif"
 ];
 
 window.addEventListener('DOMContentLoaded', () => {
     const song = document.getElementById('birthday-song');
     const volumeSlider = document.getElementById('volume-slider');
 
+    // Inicializar volumen a la mitad (0.5)
     if (song) song.volume = 0.5;
     
     if (volumeSlider && song) {
@@ -28,8 +29,6 @@ function generateFloatingPhotos() {
     const area = document.getElementById('floating-area');
     if (!area) return;
     
-    // NOTA: Si hiciste la prueba anterior de comentar esta línea, 
-    // DESCOMENTALA quitando las barras para que funcione correctamente:
     area.innerHTML = ""; 
 
     // Mezclamos el orden para que queden distribuidos al azar
@@ -40,7 +39,7 @@ function generateFloatingPhotos() {
         photoDiv.classList.add('floating-photo');
 
         const img = document.createElement('img');
-        img.src = url;
+        img.src = "./" + url; // Carga local relativa estricta
         img.alt = `Momento Greysi`;
         
         // Si una imagen falla por no estar lista, se oculta limpiamente sin romper el script
@@ -50,12 +49,12 @@ function generateFloatingPhotos() {
         
         photoDiv.appendChild(img);
 
-        // Distribución inteligente en base al índice
+        // Distribución en rejilla horizontal aleatoria inteligente
         const columnas = 5; 
         const colIdx = index % columnas;
         const leftPercent = (colIdx * (100 / columnas)) + (Math.random() * 8);
         
-        // Espaciado en píxeles hacia abajo para evitar colapsos
+        // Espaciado dinámico en píxeles hacia abajo para poder scrollear
         const topPercent = (index * 60) + (Math.random() * 15);
 
         // Ángulos de inclinación estilo Polaroid
@@ -76,44 +75,12 @@ function generateFloatingPhotos() {
     });
 }
 
-function goToWindow(windowNumber) {
-    // Ocultar la ventana actual
-    const currentWindow = document.querySelector('.window.active');
-    if (currentWindow) {
-        currentWindow.classList.remove('active');
-        currentWindow.classList.add('hidden');
-    }
-
-    // Mostrar la ventana seleccionada
-    const nextWindow = document.getElementById(`window-${windowNumber}`);
-    if (nextWindow) {
-        nextWindow.classList.remove('hidden');
-        nextWindow.classList.add('active');
-    }
-
-    // Al ingresar a la ventana de fotos (Ventana 2)
-    if (windowNumber === 2) {
-        const song = document.getElementById('birthday-song');
-        const volumeContainer = document.getElementById('volume-container');
-
-        if (volumeContainer) {
-            volumeContainer.classList.remove('hidden');
-        }
-        
-        // Ejecutar el creador de fotos
-        generateFloatingPhotos();
-
-        if (song) {
-            song.play().catch(error => {
-                console.log("El audio requiere interacción o el archivo falta:", error);
-            });
-        }
-        // Función para sembrar tulipanes de manera aleatoria en el fondo
+// Función para sembrar tulipanes de manera aleatoria en el fondo
 function createDigitalGarden() {
     const garden = document.getElementById('flower-garden');
     if (!garden) return;
 
-    garden.innerHTML = ""; // Limpiar por si acaso
+    garden.innerHTML = ""; 
 
     // Crearemos unos 20 tulipanes para rellenar bien la parte baja
     const cantidadTulipanes = 20;
@@ -145,5 +112,52 @@ function createDigitalGarden() {
         tulip.style.animationDelay = `${Math.random() * 2.2}s`;
 
         garden.appendChild(tulip);
+    }
+}
+
+function goToWindow(windowNumber) {
+    // Ocultar la ventana actual
+    const currentWindow = document.querySelector('.window.active');
+    if (currentWindow) {
+        currentWindow.classList.remove('active');
+        currentWindow.classList.add('hidden');
+    }
+
+    // Mostrar la ventana seleccionada
+    const nextWindow = document.getElementById(`window-${windowNumber}`);
+    if (nextWindow) {
+        nextWindow.classList.remove('hidden');
+        nextWindow.classList.add('active');
+    }
+
+    // Al ingresar a la ventana de fotos (Ventana 2)
+    if (windowNumber === 2) {
+        const song = document.getElementById('birthday-song');
+        const volumeContainer = document.getElementById('volume-container');
+
+        if (volumeContainer) {
+            volumeContainer.classList.remove('hidden');
+        }
+        
+        // Cargar las fotos y GIFs flotantes
+        generateFloatingPhotos();
+
+        // Reproducir cancion.mp3 de manera segura gracias al clic de "PaoPao"
+        if (song) {
+            song.play().catch(error => {
+                console.log("No se pudo iniciar el audio:", error);
+            });
+        }
+    }
+    
+    // Al pasar a la despedida (Ventana 3)
+    if (windowNumber === 3) {
+        const volumeContainer = document.getElementById('volume-container');
+        if (volumeContainer) {
+            volumeContainer.classList.add('hidden');
+        }
+
+        // Activar el campo de tulipanes digitales
+        createDigitalGarden();
     }
 }
