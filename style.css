@@ -42,14 +42,15 @@ body {
 
 /* Tarjetas Estilo Pastel */
 .card {
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.82);
     border-radius: 24px;
     padding: 40px 30px;
-    box-shadow: 0 10px 30px rgba(254, 219, 226, 0.5);
+    box-shadow: 0 10px 30px rgba(254, 219, 226, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     max-width: 550px;
     text-align: center;
+    z-index: 5; /* Por encima de la lluvia de flores */
 }
 
 .icon {
@@ -197,77 +198,80 @@ h1, h2 {
     cursor: pointer;
 }
 
-/* Contenedor del jardín en la ventana final */
+/* 🌸 ATMÓSFERA DE LLUVIA DE TULIPANES (Nuevo concepto de pantalla completa) */
 .garden-bg {
-    position: absolute;
+    position: fixed; /* Ocupa toda la ventana del navegador */
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
-    z-index: 1;
+    z-index: 1; /* Pasa por detrás del texto de la tarjeta */
     pointer-events: none;
 }
 
-/* Estilo base del tulipán */
 .digital-flower {
     position: absolute;
-    bottom: 0;
+    top: -50px; /* Inician arriba fuera de pantalla */
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform-origin: bottom center;
-    animation: growTulip 3.5s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+    transform-origin: center;
+    opacity: 0.85;
+    /* Animación combinada de caída y balanceo de viento */
+    animation: fallTulip var(--fall-duration) linear infinite, swayTulip var(--sway-duration) ease-in-out infinite;
 }
 
-/* El capullo del tulipán */
 .tulip-head {
-    width: 24px;
-    height: 32px;
+    width: 22px;
+    height: 30px;
     background: var(--tulip-color);
     border-radius: 12px 12px 4px 4px;
     position: relative;
-    box-shadow: inset -3px -3px 8px rgba(0,0,0,0.06);
-    z-index: 3;
+    box-shadow: inset -2px -2px 6px rgba(0,0,0,0.05);
 }
 
-/* El corte del tulipán en la punta */
 .tulip-head::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 4px;
+    left: 3px;
     width: 16px;
-    height: 32px;
-    background: rgba(255, 255, 255, 0.2);
+    height: 30px;
+    background: rgba(255, 255, 255, 0.22);
     border-radius: 9px 9px 0 0;
 }
 
-/* El tallo verde pastel */
+/* Tallo minimalista curvo que da efecto de estar flotando desprendido */
 .flower-stem {
-    width: 4px;
+    width: 3px;
+    height: 25px;
     background: #a3ccab;
-    border-radius: 0 0 4px 4px;
-    height: var(--stem-height);
-    position: relative;
-    z-index: 2;
-    margin-top: -2px;
+    border-radius: 2px;
+    margin-top: -1px;
+    transform: rotate(-10deg);
 }
 
-/* Pequeña hoja verde en el tallo */
-.flower-stem::after {
-    content: '';
-    position: absolute;
-    top: 30%;
-    left: 3px;
-    width: 10px;
-    height: 18px;
-    background: #b5dbae;
-    border-radius: 0 12px 0 12px;
-    transform: rotate(20deg);
+/* Animación de caída libre vertical */
+@keyframes fallTulip {
+    0% {
+        top: -50px;
+    }
+    100% {
+        top: 105vh;
+    }
 }
 
-/* Animaciones */
+/* Animación de vaivén u oscilación (Efecto hoja al viento) */
+@keyframes swayTulip {
+    0%, 100% {
+        transform: translateX(0) rotate(var(--rot-min));
+    }
+    50% {
+        transform: translateX(var(--sway-distance)) rotate(var(--rot-max));
+    }
+}
+
 @keyframes floatIcon {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
@@ -278,32 +282,12 @@ h1, h2 {
     50% { transform: translateY(-18px) rotate(var(--rot-offset)); }
 }
 
-@keyframes growTulip {
-    0% { transform: scale(0) translateY(50px); opacity: 0; }
-    100% { transform: scale(1) translateY(0); opacity: 0.95; }
-}
-
-/* 📱 AJUSTE CRUCIAL PARA CELULARES */
+/* Ajustes Móviles */
 @media (max-width: 600px) {
-    .window {
-        padding: 10px;
-    }
-    
-    .card {
-        max-width: 88%;
-        padding: 30px 20px;
-        background: rgba(255, 255, 255, 0.82);
-    }
-
-    .tulip-head { 
-        width: 18px; 
-        height: 26px; 
-    }
-    .tulip-head::before {
-        width: 12px;
-        height: 26px;
-    }
-    
+    .window { padding: 10px; }
+    .card { max-width: 90%; padding: 35px 20px; }
+    .tulip-head { width: 18px; height: 25px; }
+    .tulip-head::before { width: 12px; height: 25px; }
     .floating-photo { max-width: 95px; padding: 6px 6px 16px 6px; }
     h1, h2 { font-size: 1.7rem; }
     .floating-area { height: 65vh; }
