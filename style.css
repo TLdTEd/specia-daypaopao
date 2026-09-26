@@ -20,6 +20,7 @@ body {
 .window {
     width: 100%;
     max-width: 1000px;
+    min-height: 100vh; /* 👈 Asegúrate de que tenga esta línea exacta */
     padding: 20px;
     display: flex;
     flex-direction: column;
