@@ -82,24 +82,35 @@ function createDigitalGarden() {
 
     garden.innerHTML = ""; 
 
-    // Crearemos unos 20 tulipanes para rellenar bien la parte baja
-    const cantidadTulipanes = 20;
-
-    // Paleta de tulipanes pastel (Rosas, amarillos, lilas, naranjas suaves y crema)
+    // 22 tulipanes bien distribuidos
+    const cantidadTulipanes = 22;
     const coloresTulipanes = ["#ffb3c6", "#ffcad4", "#ffe5ec", "#ffccd5", "#fde2e4", "#fff3b0", "#e8e8e4", "#fae1dd", "#dfccfb"];
+
+    // Detectar si es un dispositivo móvil (pantalla pequeña)
+    const esMovil = window.innerWidth < 600;
 
     for (let i = 0; i < cantidadTulipanes; i++) {
         const tulip = document.createElement('div');
         tulip.classList.add('digital-flower');
 
         // Posición horizontal distribuida por la pantalla con un toque de azar
-        const leftPos = (i * (100 / cantidadTulipanes)) + (Math.random() * 2);
+        const leftPos = (i * (100 / cantidadTulipanes)) + (Math.random() * 1.5);
         tulip.style.left = `${leftPos}%`;
 
-        // Altura orgánica de los tallos (entre 70px y 210px)
-        const stemHeight = 70 + Math.random() * 140;
+        // LÓGICA DE ALTURA INTERACTIVA: En el centro (donde está la tarjeta) serán bajitos.
+        // En los bordes (izquierdo y derecho) crecerán muy alto para salir al lado de la tarjeta.
+        const centroOriginal = i / cantidadTulipanes; // Valor entre 0 y 1
+        const distanciaAlCentro = Math.abs(centroOriginal - 0.5); // Qué tan lejos está del medio
+
+        let stemHeight;
+        if (esMovil) {
+            // En móvil la tarjeta es alta: los de las esquinas crecen mucho más alto para enmarcar el texto
+            stemHeight = 80 + (distanciaAlCentro * 480) + (Math.random() * 25);
+        } else {
+            // En computadora la distribución es estándar horizontal
+            stemHeight = 70 + Math.random() * 140;
+        }
         
-        // Elegir color al azar de la paleta
         const colorElegido = coloresTulipanes[Math.floor(Math.random() * coloresTulipanes.length)];
 
         // ORDEN NATURAL: Inyectamos primero la cabeza (arriba) y luego el tallo (abajo)
@@ -109,7 +120,7 @@ function createDigitalGarden() {
         `;
         
         // Ritmos de nacimiento desfasados para que broten uno por uno suavemente
-        tulip.style.animationDelay = `${Math.random() * 2.2}s`;
+        tulip.style.animationDelay = `${Math.random() * 2}s`;
 
         garden.appendChild(tulip);
     }
@@ -157,7 +168,7 @@ function goToWindow(windowNumber) {
             volumeContainer.classList.add('hidden');
         }
 
-        // Activar el campo de tulipanes digitales derecho
+        // Activar el campo de tulipanes digitales derecho con alturas adaptadas
         createDigitalGarden();
     }
 }
