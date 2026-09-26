@@ -274,7 +274,6 @@ h1, h2 {
     50% { transform: translateX(var(--sway-distance, 25px)) rotate(var(--rot-max, 15deg)); }
 }
 
-/* Animación especial para los tulipanes táctiles */
 @keyframes riseAndFade {
     0% {
         transform: scale(0.3);
@@ -288,7 +287,8 @@ h1, h2 {
         transform: scale(1);
     }
     100% {
-        transform: translateY(-250px); /* Sube suavemente hacia arriba */
+        /* Cambiado a coordenadas relativas negativas en la pantalla */
+        transform: translateY(-40vh) rotate(15deg); 
         opacity: 0;
     }
 }
