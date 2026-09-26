@@ -141,37 +141,33 @@ function spawnInteractiveTulip(x, y) {
 
     garden.appendChild(interactiveTulip);
 
-    // Borramos el elemento después de que su animación de ascenso termine para no saturar memoria
+    // Borramos el elemento después de que su animación de ascenso termine
     setTimeout(() => {
         interactiveTulip.remove();
     }, 4000);
 }
 
-// Configura los oyentes táctiles para la ventana de cierre en toda la pantalla
+// Configura los oyentes táctiles globales de forma correcta
 function setupInputListeners() {
-    // Escuchar el clic del mouse (Computadora)
+    // 🖥️ Escuchar clics de mouse (Computadora)
     document.addEventListener('click', (e) => {
-        // Solo funciona si estamos parados viendo la ventana 3
         const window3 = document.getElementById('window-3');
         if (!window3 || window3.classList.contains('hidden')) return;
-        
-        // No creamos flores si toca dentro del mensaje blanco
-        if (e.target.closest('.card')) return;
+        if (e.target.closest('.card')) return; // No dispara en la tarjeta blanca
         
         spawnInteractiveTulip(e.clientX, e.clientY);
     });
 
-    // Escuchar el toque del dedo (Celular)
+    // 📱 Escuchar toques en pantallas táctiles (Celular)
     document.addEventListener('touchstart', (e) => {
         const window3 = document.getElementById('window-3');
         if (!window3 || window3.classList.contains('hidden')) return;
-        
-        if (e.target.closest('.card')) return;
+        if (e.target.closest('.card')) return; // No dispara en la tarjeta blanca
 
-        // Corrección técnica: Extraer el primer dedo que toca la pantalla (index 0)
+        // CORRECCIÓN CLAVE: Acceso correcto a la lista de toques activos del navegador móvil
         if (e.touches && e.touches.length > 0) {
-            const touch = e.touches[0];
-            spawnInteractiveTulip(touch.clientX, touch.clientY);
+            const firstTouch = e.touches[0];
+            spawnInteractiveTulip(firstTouch.clientX, firstTouch.clientY);
         }
     });
 }
@@ -211,10 +207,10 @@ function goToWindow(windowNumber) {
             volumeContainer.classList.add('hidden');
         }
         
-        // 1. Desplegar la cortina infinita de tulipanes al viento
+        // Iniciar lluvia de fondo
         createDigitalGarden();
         
-        // 2. Encender los sensores para clics o toques táctiles
+        // Activar escuchas táctiles sin errores
         setupInputListeners();
     }
 }
