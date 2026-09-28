@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!-- Elemento de Audio Oculto (Carga cancion.mp3 localmente) -->
+    <!-- Elemento de Audio Oculto -->
     <audio id="birthday-song" loop preload="auto">
         <source src="./cancion.mp3" type="audio/mpeg">
         Tu navegador no soporta la reproducción de audio.
@@ -36,17 +36,54 @@
             <h2>PaoPao</h2>
             <p class="subtitle">La vida son momentos...</p>
             
-            <!-- Contenedor amplio para la lluvia de recuerdos -->
             <div class="floating-area" id="floating-area"></div>
 
             <button class="btn btn-next" onclick="goToWindow(3)">Siguiente ➡️</button>
         </div>
     </section>
 
-    <!-- VENTANA 3: Despedida y Buenos Deseos con Lluvia e Interacción -->
-    <section id="window-3" class="window hidden" style="position: relative;">
+    <!-- VENTANA 3: Pregunta de Opción Múltiple y Mensaje Largo -->
+    <section id="window-3" class="window hidden">
         
-        <!-- Contenedor para el regalo de tulipanes digitales -->
+        <!-- Bloque A: La Pregunta Interactiva -->
+        <div class="card" id="quiz-block">
+            <span class="icon">❓</span>
+            <h2>Una pequeña pregunta...</h2>
+            <p class="message" style="font-weight: 600; color: #ff8fa3;">3 hermanos mexicanos que hacen musica que nos gusta</p>
+            
+            <div class="quiz-options">
+                <button class="btn-option" onclick="checkAnswer(false)">kanye west</button>
+                <button class="btn-option" onclick="checkAnswer(true)">latin mafia</button>
+                <button class="btn-option" onclick="checkAnswer(false)">los panchos</button>
+                <button class="btn-option" onclick="checkAnswer(false)">pedrito, juanito y pepito</button>
+            </div>
+            <p id="quiz-error" class="error-text hidden">¡Nop, intenta otra vez! Infórmate bien 👀</p>
+        </div>
+
+        <!-- Bloque B: El Mensaje Especial (Oculto hasta que acierte) -->
+        <div class="card letter-card hidden" id="message-block">
+            <!-- Espacio en blanco perfecto para el GIF con fondo blanco -->
+            <div class="gif-wrapper">
+                <img src="./GsSp.gif" alt="Detalle especial" class="white-bg-gif">
+            </div>
+            
+            <div class="letter-text">
+                <p>Agradecido de por vida contigo...</p>
+                <p>Desde la lejania y desde el lado más humano que tengo; buscaré, velaré, pediré y rezaré por que siempre estés bien y siempre encuentres lo que busques.</p>
+                <p>Agradecido de por vida contigo...</p>
+                <p>Por todo lo sucedido, porque puedo decir que fui testigo de una vida haciendose y esforzandose en su hacer, contra si misma y contra la vida.</p>
+                <p>Lo especial de este dia no le quita lo especial que son todos los dias que estás viva, desde que cierras los ojos por la noche, a veces con lagrimas... hasta cuando te despierta tu mamá y te levantas con flojera para ver a tu hermano, todo esas cosas pequeñas y disgustos son lo que te hacen especial y única... desde alla arriba, no tan lejos, siempre cerquita de nuestros corazones, te estarán observando esos seres que partieron pero que nunca se fueron y no se irán, porque el amor que hubo es más grande que cualquier otra cosa, te observan con mucho orgullo por lo que logras y lograrás.</p>
+                <p>Desde la lejania, te comento, que las cosas se ven borrosas, pero por adentro están nitidas...</p>
+                <p>Te deseo mucha felicidad, no solo en este dia, si no en todos los dias... que te cuides un montón POR FAVOR, que sanes tus heridas y que tu capacidad sane a tus pacientes y a quienes quieres, un fuerte abrazo en la distancia...</p>
+                <p style="font-weight: 500; margin-bottom: 25px;">si necesitas cualquier cosa, incluso contar un chiste, aquí estoy...</p>
+            </div>
+
+            <button class="btn" onclick="goToWindow(4)">Siguiente ➡️</button>
+        </div>
+    </section>
+
+    <!-- VENTANA 4: Despedida y Buenos Deseos con Lluvia de Tulipanes -->
+    <section id="window-4" class="window hidden" style="position: relative;">
         <div id="flower-garden" class="garden-bg"></div>
 
         <div class="card font-soft" style="z-index: 5;">
