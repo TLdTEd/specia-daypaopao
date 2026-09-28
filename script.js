@@ -18,6 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const song = document.getElementById('birthday-song');
     const volumeSlider = document.getElementById('volume-slider');
 
+    // Inicializar volumen a la mitad (0.5)
     if (song) song.volume = 0.5;
     
     if (volumeSlider && song) {
@@ -40,7 +41,7 @@ function generateFloatingPhotos() {
         photoDiv.classList.add('floating-photo');
 
         const img = document.createElement('img');
-        img.src = "./" + url;
+        img.src = "./" + url; // Carga local relativa estricta
         img.alt = `Momento Greysi`;
         
         img.onerror = function() {
@@ -70,7 +71,7 @@ function generateFloatingPhotos() {
     });
 }
 
-// 🌸 Genera la cortina infinita de tulipanes flotando de fondo
+// 🌸 Genera la cortina infinita de tulipanes flotando de fondo en la Ventana 4
 function createDigitalGarden() {
     const garden = document.getElementById('flower-garden');
     if (!garden) return;
@@ -112,80 +113,53 @@ function createDigitalGarden() {
     }
 }
 
-// ✨ Interacción Mágica: Siembra un tulipán en las coordenadas exactas de la pantalla
-function spawnInteractiveTulip(x, y) {
-    const garden = document.getElementById('flower-garden');
-    if (!garden) return;
+// ❓ Función para validar la respuesta del Quiz
+function checkAnswer(isCorrect) {
+    const quizBlock = document.getElementById('quiz-block');
+    const messageBlock = document.getElementById('message-block');
+    const errorText = document.getElementById('quiz-error');
 
-    const interactiveTulip = document.createElement('div');
-    interactiveTulip.classList.add('clicked-flower');
-
-    // Ubicamos la base de la flor centrada en el punto de contacto
-    interactiveTulip.style.left = `${x - 11}px`; 
-    interactiveTulip.style.top = `${y - 30}px`;
-
-    // Efectos de viento únicos para esta flor táctil
-    const swayDistance = (15 + Math.random() * 20) + "px";
-    const rotMin = (Math.random() * -20 - 5) + "deg";
-    const rotMax = (Math.random() * 20 + 5) + "deg";
-    const colorElegido = coloresTulipanes[Math.floor(Math.random() * coloresTulipanes.length)];
-
-    interactiveTulip.innerHTML = `
-        <div class="tulip-head" style="--tulip-color: ${colorElegido};"></div>
-        <div class="flower-stem" style="height: 35px;"></div>
-    `;
-
-    interactiveTulip.style.setProperty('--sway-distance', swayDistance);
-    interactiveTulip.style.setProperty('--rot-min', rotMin);
-    interactiveTulip.style.setProperty('--rot-max', rotMax);
-
-    garden.appendChild(interactiveTulip);
-
-    // Borramos el elemento después de que su animación de ascenso termine
-    setTimeout(() => {
-        interactiveTulip.remove();
-    }, 4000);
-}
-
-function setupInputListeners() {
-    const window3 = document.getElementById('window-3');
-    if (!window3) return;
-
-    // 🖥️ Capturar clics en Computadora
-    window3.addEventListener('click', (e) => {
-        // Si hace clic dentro del mensaje de texto blanco, no creamos flores
-        if (e.target.closest('.card')) return;
+    if (isCorrect) {
+        // Si acierta, ocultamos el error y la pregunta, y revelamos la hermosa carta larga
+        if (errorText) errorText.classList.add('hidden');
         
-        spawnInteractiveTulip(e.clientX, e.clientY);
-    });
-
-    // 📱 Capturar toques en Celular (Verificado)
-    window3.addEventListener('touchstart', (e) => {
-        if (e.target.closest('.card')) return;
-
-        // Leemos el primer dedo en tocar la pantalla de forma estricta
-        if (e.touches && e.touches.length > 0) {
-            const touch = e.touches[0];
-            
-            // Usamos el cliente nativo de coordenadas del dispositivo
-            spawnInteractiveTulip(touch.clientX, touch.clientY);
+        if (quizBlock) {
+            quizBlock.style.transition = "opacity 0.4s ease";
+            quizBlock.style.opacity = "0";
+            setTimeout(() => quizBlock.classList.add('hidden'), 400);
         }
-    }, { passive: true }); // Optimiza el rendimiento táctil en celulares
+
+        setTimeout(() => {
+            if (messageBlock) {
+                messageBlock.classList.remove('hidden');
+                messageBlock.style.opacity = "0";
+                messageBlock.style.transition = "opacity 0.6s ease";
+                setTimeout(() => messageBlock.style.opacity = "1", 50);
+            }
+        }, 450);
+
+    } else {
+        // Si se equivoca, mostramos el aviso tierno de advertencia
+        if (errorText) errorText.classList.remove('hidden');
+    }
 }
 
 function goToWindow(windowNumber) {
+    // Ocultar la ventana actual
     const currentWindow = document.querySelector('.window.active');
     if (currentWindow) {
         currentWindow.classList.remove('active');
         currentWindow.classList.add('hidden');
     }
 
+    // Mostrar la ventana seleccionada
     const nextWindow = document.getElementById(`window-${windowNumber}`);
     if (nextWindow) {
         nextWindow.classList.remove('hidden');
         nextWindow.classList.add('active');
     }
 
+    // Al ingresar a la ventana de fotos (Ventana 2)
     if (windowNumber === 2) {
         const song = document.getElementById('birthday-song');
         const volumeContainer = document.getElementById('volume-container');
@@ -202,16 +176,28 @@ function goToWindow(windowNumber) {
         }
     }
     
+    // Al pasar a la Ventana 3 (Aseguramos restablecer los bloques por si acaso)
     if (windowNumber === 3) {
+        const quizBlock = document.getElementById('quiz-block');
+        const messageBlock = document.getElementById('message-block');
+        const errorText = document.getElementById('quiz-error');
+
+        if (quizBlock) {
+            quizBlock.classList.remove('hidden');
+            quizBlock.style.opacity = "1";
+        }
+        if (messageBlock) messageBlock.classList.add('hidden');
+        if (errorText) errorText.classList.add('hidden');
+    }
+
+    // Al pasar a la despedida final (Ventana 4)
+    if (windowNumber === 4) {
         const volumeContainer = document.getElementById('volume-container');
         if (volumeContainer) {
             volumeContainer.classList.add('hidden');
         }
         
-        // Iniciar lluvia de fondo
+        // Iniciar la cortina infinita de tulipanes al viento en pantalla completa
         createDigitalGarden();
-        
-        // Activar escuchas táctiles sin errores
-        setupInputListeners();
     }
 }
