@@ -16,11 +16,11 @@ body {
     overflow-x: hidden;
 }
 
-/* Control de Ventanas */
+/* Control de Ventanas consecutivas */
 .window {
     width: 100%;
     max-width: 1000px;
-    min-height: 100vh; /* 👈 Asegúrate de que tenga esta línea exacta */
+    min-height: 100vh;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -52,6 +52,46 @@ body {
     max-width: 550px;
     text-align: center;
     z-index: 5;
+}
+
+/* Tarjeta especial para el mensaje largo de cumpleaños */
+.letter-card {
+    max-width: 650px;
+    padding: 30px;
+    background: #ffffff !important; /* Totalmente blanco para camuflar el fondo del GIF */
+}
+
+/* Contenedor adaptado para el GIF GsSp.gif con fondo blanco */
+.gif-wrapper {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto 20px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.white-bg-gif {
+    width: 100%;
+    height: auto;
+    display: block;
+    background-color: #ffffff;
+}
+
+/* Estilo para los párrafos de tu carta personal */
+.letter-text {
+    text-align: left;
+    max-height: 45vh; /* Añade scroll interno si en celulares es muy largo */
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 25px;
+}
+
+.letter-text p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: #5c5257;
+    margin-bottom: 18px;
 }
 
 .icon {
@@ -129,7 +169,45 @@ h1, h2 {
     z-index: 9999 !important;
 }
 
-/* Botones */
+/* Bloque interactivo de opciones (Pregunta) */
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 20px auto;
+}
+
+/* Botones para las respuestas de opción múltiple */
+.btn-option {
+    background: rgba(255, 255, 255, 0.9);
+    color: #6c5f66;
+    border: 2px solid #ffe5ec;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+}
+
+.btn-option:hover {
+    background: #fff0f3;
+    border-color: #ffb3c6;
+    color: #ff8fa3;
+    transform: translateY(-1px);
+}
+
+.error-text {
+    color: #ff4d6d;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 10px;
+}
+
+/* Botones Base */
 .btn {
     background: #ffb3c6;
     color: white;
@@ -199,7 +277,7 @@ h1, h2 {
     cursor: pointer;
 }
 
-/* 🌸 LLUVIA INFINITA DE TULIPANES */
+/* 🌸 LLUVIA INFINITA DE TULIPANES (Pantalla completa) */
 .garden-bg {
     position: fixed;
     top: 0;
@@ -220,18 +298,6 @@ h1, h2 {
     transform-origin: center;
     opacity: 0.85;
     animation: fallTulip var(--fall-duration) linear infinite, swayTulip var(--sway-duration) ease-in-out infinite;
-}
-
-/* ✨ TULIPANES GENERADOS POR CLIC / TOQUE */
-.clicked-flower {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform-origin: bottom center;
-    z-index: 2;
-    pointer-events: none;
-    animation: riseAndFade 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, swayTulip 2s ease-in-out infinite;
 }
 
 .tulip-head {
@@ -263,35 +329,15 @@ h1, h2 {
     transform: rotate(-10deg);
 }
 
-/* Animación de caída (Fondo) */
+/* Animaciones */
 @keyframes fallTulip {
     0% { top: -50px; }
     100% { top: 105vh; }
 }
 
-/* Animación de vaivén (Viento) */
 @keyframes swayTulip {
     0%, 100% { transform: translateX(0) rotate(var(--rot-min, -15deg)); }
     50% { transform: translateX(var(--sway-distance, 25px)) rotate(var(--rot-max, 15deg)); }
-}
-
-@keyframes riseAndFade {
-    0% {
-        transform: scale(0.3);
-        opacity: 0;
-    }
-    15% {
-        transform: scale(1.1);
-        opacity: 0.95;
-    }
-    30% {
-        transform: scale(1);
-    }
-    100% {
-        /* Cambiado a coordenadas relativas negativas en la pantalla */
-        transform: translateY(-40vh) rotate(15deg); 
-        opacity: 0;
-    }
 }
 
 @keyframes floatIcon {
@@ -307,7 +353,10 @@ h1, h2 {
 /* Ajustes Móviles */
 @media (max-width: 600px) {
     .window { padding: 10px; }
-    .card { max-width: 90%; padding: 35px 20px; }
+    .card { max-width: 90%; padding: 30px 20px; }
+    .letter-card { max-width: 95%; padding: 20px 15px; }
+    .letter-text { max-height: 38vh; }
+    .letter-text p { font-size: 0.95rem; line-height: 1.55; }
     .tulip-head { width: 18px; height: 25px; }
     .tulip-head::before { width: 12px; height: 25px; }
     .floating-photo { max-width: 95px; padding: 6px 6px 16px 6px; }
